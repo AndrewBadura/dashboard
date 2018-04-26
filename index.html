@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Please Wait ...</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>  
+</head>
+    <body>
+
+        <script type="text/javascript">
+            var socket = io.connect('https://coincap.io');
+            socket.on('trades', function (tradeMsg) {
+                //console.log(tradeMsg);
+                if(tradeMsg.message.coin == "DASH"){
+                    var thePrice = tradeMsg.message.msg.price.toLocaleString(undefined, {minimumFractionDigits:2 ,maximumFractionDigits:2});
+                    document.title = "$" + thePrice;
+                    document.getElementById("DASH").innerHTML = "$" + thePrice;
+                    document.getElementById("MN").innerHTML = "$" + (thePrice * 1000.00).toLocaleString(undefined, {minimumFractionDigits:0 ,maximumFractionDigits:0});
+                    //String().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    //document.getElementById('dashjson').innerHTML = JSON.stringify(tradeMsg);
+                }
+                if(tradeMsg.message.coin == "XMR"){
+                    document.getElementById("XMR").innerHTML = "$" + tradeMsg.message.msg.price.toLocaleString(undefined, {minimumFractionDigits:2 ,maximumFractionDigits:2});
+                    //document.getElementById('xmrjson').innerHTML = JSON.stringify(tradeMsg);
+                 }
+            })
+            </script>
+
+         
+    <h1>MN:  <div id="MN">$0</div></h1>
+    <h2>DASH:  <div id="DASH">$0</div></h2>
+    <div id="dashjson"></div>
+    <h2>XMR:  <div id="XMR">$0</div></h2>
+    <div id="xmrjson"></div>
+    </body>
+</html>
